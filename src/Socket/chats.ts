@@ -527,7 +527,10 @@ export const makeChatsSocket = (config: SocketConfig) => {
 			content: [
 				{ tag: 'picture', attrs: { type, query: 'url' } }
 			]
-		}, timeoutMs)
+		}, timeoutMs, false)
+		if('tag' in result) {
+			return undefined
+		}
 		const child = getBinaryNodeChild(result, 'picture')
 		return child?.attrs?.url
 	}

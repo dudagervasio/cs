@@ -170,7 +170,7 @@ export const makeSocket = (config: SocketConfig) => {
 	}
 
 	/** send a query, and wait for its response. auto-generates message ID if not provided */
-	const query = async(node: BinaryNode, timeoutMs?: number) => {
+	const query = async(node: BinaryNode, timeoutMs?: number, assertError: boolean = true) => {
 		if(!node.attrs.id) {
 			node.attrs.id = generateMessageTag()
 		}
@@ -181,7 +181,7 @@ export const makeSocket = (config: SocketConfig) => {
 		await sendNode(node)
 
 		const result = await (wait as Promise<BinaryNode>)
-		if('tag' in result) {
+		if(assertError && 'tag' in result) {
 			assertNodeErrorFree(result)
 		}
 
